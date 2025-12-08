@@ -1,44 +1,77 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
 
-const studentSchema = mongoose.Schema({
+const studentSchema = new mongoose.Schema(
+  {
     firstName: {
-        type: string,
-        required: [true, 'First Name is Required'],
+      type: String,
+      required: [true, 'First Name is Required'],
     },
     lastName: {
-        type: string,
-        required: [true, 'Last Name is Required'],
+      type: String,
+      required: [true, 'Last Name is Required'],
     },
     userName: {
-        type: string,
-        required: [true, 'Last Name is Required'],
-        unique: true
+      type: String,
+      required: [true, 'Username is Required'],
+      unique: true,
+    },
+    uniEmail: {
+      type: String,
+      required: [true, 'Email is Required'],
+    },
+    password: {
+      type: String,
+      required: [true, 'Password is Required'],
     },
     nationalId: {
-        type: string,
-        required: [true, 'National Id is Required'],
-        unique: true
+      type: String,
+      required: [true, 'National Id is Required'],
+      unique: true,
     },
-    nationalIdScan: {
-        type: string,
-        required: [true]
+    scannedId: {
+      type: String,
+      required: [true, 'National ID Scan is Required'],
     },
     status: {
-        type: string,
-        default: "pending"
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending',
+    },
+    role: {
+      type: String,
+      default: 'student',
     },
     avatar: {
-        type: string
+      type: String,
+      default: ""
     },
     description: {
-        type: string,
-        default: ""
+      type: String,
+      default: "",
     },
-    hobbies: [],
-    contact: {},
-    timestamps: true
+    visibility: {
+      type: String,
+      enum: ['public', 'students', 'private'],
+      default: 'public',
+    },
+    hobbies: {
+      type: [String],
+      default: [],
+    },
+    contact: {
+      type: Object,
+      default: {},
+    },
+  },
+  { timestamps: true }
+);
+
+studentSchema.pre('save', async function () {
+  if (!this.isModified('password')) return next()
+  this.password = await bcrypt.hash(this.password, Number(process.env.SALT_ROUNDS))
 })
 
-const Student = mongoose.model(studentSchema);
+const Student = mongoose.model('Student', studentSchema);
 
-module.exports = { Student }
+module.exports = Student;
