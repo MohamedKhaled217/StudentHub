@@ -19,15 +19,29 @@ router.post('/login',
     controller.loginStudent
 )
 
-router.get('/profile/:alias')  // get profile
+router.get('/profile/:alias', controller.getProfile)
 
-router.route('editProfile')
+router.put('/editProfile',
+    require('../utils/auth').protected,
+    upload.single('avatar'),
+    controller.updateProfile
+)
 
-router.route('createProject')
+router.post('/logout',
+    require('../utils/auth').protected,
+    controller.logout
+)
 
-router.route('editProject')
+router.post('/createProject',
+    require('../utils/auth').protected,
+    controller.createProject
+)
 
-router.route('logout')
+router.put('/editProject/:projectId',
+    require('../utils/auth').protected,
+    upload.array('images', 5),
+    controller.editProject
+)
 
 
 module.exports = router

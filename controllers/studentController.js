@@ -73,7 +73,166 @@ const loginStudent = async (req, res, next) => {
     }
 }
 
+const getProfile = async (req, res, next) => {
+    try {
+        const { alias } = req.params;
+
+        const student = await Student.findOne({ userName: alias })
+            .select('-password -nationalId -scannedId');
+
+        if (!student) {
+            return next(new AppError('Student not found', 404));
+        }
+
+        const requesterId = req.studentPayload?.id;
+        const requesterRole = req.studentPayload?.role; // ← علشان نعرف لو admin
+
+        // admin 
+        if (requesterRole === "admin") {
+            return res.status(200).json({
+                status: 'success',
+                data: student
+            });
+        }
+
+        // private 
+        if (student.visibility === 'private' && student._id.toString() !== requesterId) {
+            return next(new AppError('This profile is private', 403));
+        }
+
+        // students → logged in
+        if (student.visibility === 'students' && !requesterId) {
+            return next(new AppError('You must be logged in to view this profile', 401));
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: student
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+const updateProfile = async (req, res, next) => {
+    try {
+        const { alias } = req.params;
+        const requesterId = req.studentPayload?.id;
+        const requesterRole = req.studentPayload?.role;
+
+        const student = await Student.findOne({ userName: alias });
+
+        if (!student) {
+            return next(new AppError('Student not found', 404));
+        }
+        // admin
+        const isAdmin = requesterRole === "admin";
+
+        //  Owner 
+        const isOwner = student._id.toString() === requesterId;
+
+        if (!isAdmin && !isOwner) {
+            return next(new AppError('You are not allowed to edit this profile', 403));
+        }
+
+        Object.assign(student, req.body);
+
+        await student.save();
+
+        res.status(200).json({
+            status: 'success',
+            data: student
+        });
+
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+
+const logout = async (req, res, next) => {
+    try {
+        res.cookie('jwt', '', {
+            httpOnly: true,
+            expires: new Date(0)
+        });
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Logged out successfully'
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const createProject = async (req, res, next) => {
+    try {
+        const studentId = req.studentPayload.id;
+        const projectData = req.body;
+
+        const student = await Student.findById(studentId);
+        
+        if (!student) {
+            return next(new AppError('Student not found', 404));
+        }
+
+        // Add the new project to the projects array
+        student.projects.push(projectData);
+        await student.save();
+
+        res.status(201).json({
+            status: 'success',
+            message: 'Project created successfully',
+            data: student.projects[student.projects.length - 1]
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const editProject = async (req, res, next) => {
+    try {
+        const studentId = req.studentPayload.id;
+        const { projectId } = req.params;
+        const updateData = req.body;
+
+
+        const student = await Student.findById(studentId);
+        
+        if (!student) {
+            return next(new AppError('Student not found', 404));
+        }
+
+        // Find the project by _id
+        const project = student.projects.id(projectId);
+        
+        if (!project) {
+            return next(new AppError('Project not found', 404));
+        }
+
+        // Update project fields
+        Object.assign(project, updateData);
+        await student.save();
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Project updated successfully',
+            data: project
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     createStudent,
-    loginStudent
+    loginStudent,
+    getProfile,
+    updateProfile,
+    logout,
+    createProject,
+    editProject
 }

@@ -63,6 +63,34 @@ const studentSchema = new mongoose.Schema(
       type: Object,
       default: {},
     },
+    projects: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: String,
+          default: '',
+        },
+        technologies: {
+          type: [String],
+          default: [],
+        },
+        images: {
+          type: [String],
+          default: [],
+        },
+        githubLink: {
+          type: String,
+          default: '',
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
