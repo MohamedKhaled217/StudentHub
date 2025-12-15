@@ -1,0 +1,139 @@
+<%- include('partials/header') %>
+
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-header">
+                <img src="<%= profile.profilePhoto || '/images/default-avatar.png' %>" alt="<%= profile.name %>"
+                    class="profile-photo">
+                <div class="profile-info">
+                    <h1>
+                        <%= profile.name %>
+                    </h1>
+                    <p class="profile-email">
+                        <%= profile.email %>
+                    </p>
+                    <p class="profile-student-id">Student ID: <%= profile.studentId %>
+                    </p>
+                    <div class="profile-visibility">
+                        <span class="badge badge-<%= profile.visibility %>">
+                            <%= profile.visibility==='public' ? '🌐 Public' : profile.visibility==='university'
+                                ? '🎓 University Only' : '🔒 Private' %>
+                        </span>
+                    </div>
+                    <% if (isOwner) { %>
+                        <a href="/profile/edit" class="btn btn-primary">Edit Profile</a>
+                        <% } %>
+                </div>
+            </div>
+
+            <% if (profile.bio) { %>
+                <section class="profile-section">
+                    <h2>About Me</h2>
+                    <p>
+                        <%= profile.bio %>
+                    </p>
+                </section>
+                <% } %>
+
+                    <% if (profile.interests && profile.interests.length> 0) { %>
+                        <section class="profile-section">
+                            <h2>Interests</h2>
+                            <div class="interests-list">
+                                <% profile.interests.forEach(interest=> { %>
+                                    <span class="interest-tag">
+                                        <%= interest %>
+                                    </span>
+                                    <% }) %>
+                            </div>
+                        </section>
+                        <% } %>
+
+                            <% if (profile.skills && profile.skills.length> 0) { %>
+                                <section class="profile-section">
+                                    <h2>Skills</h2>
+                                    <div class="skills-list">
+                                        <% profile.skills.forEach(skill=> { %>
+                                            <div class="skill-item">
+                                                <div class="skill-header">
+                                                    <span>
+                                                        <%= skill.name %>
+                                                    </span>
+                                                    <span>
+                                                        <%= skill.level %>%
+                                                    </span>
+                                                </div>
+                                                <div class="skill-bar">
+                                                    <div class="skill-progress"></div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                </section>
+                                <% } %>
+
+                                    <% if (profile.projects && profile.projects.length> 0) { %>
+                                        <section class="profile-section">
+                                            <h2>Projects</h2>
+                                            <div class="projects-grid">
+                                                <% profile.projects.forEach(project=> { %>
+                                                    <div class="project-card">
+                                                        <h3>
+                                                            <%= project.name %>
+                                                        </h3>
+                                                        <p>
+                                                            <%= project.description %>
+                                                        </p>
+                                                        <div class="project-links">
+                                                            <% if (project.githubLink) { %>
+                                                                <a href="<%= project.githubLink %>" target="_blank"
+                                                                    class="btn btn-sm">GitHub</a>
+                                                                <% } %>
+                                                                    <% if (project.liveLink) { %>
+                                                                        <a href="<%= project.liveLink %>"
+                                                                            target="_blank"
+                                                                            class="btn btn-sm btn-secondary">Live
+                                                                            Demo</a>
+                                                                        <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+                                        </section>
+                                        <% } %>
+
+                                            <section class="profile-section">
+                                                <h2>Contact Information</h2>
+                                                <div class="contact-info">
+                                                    <% if (profile.contactInfo.phone) { %>
+                                                        <p>📞 <strong>Phone:</strong>
+                                                            <%= profile.contactInfo.phone %>
+                                                        </p>
+                                                        <% } %>
+                                                            <% if (profile.contactInfo.linkedin) { %>
+                                                                <p>💼 <strong>LinkedIn:</strong> <a
+                                                                        href="<%= profile.contactInfo.linkedin %>"
+                                                                        target="_blank">
+                                                                        <%= profile.contactInfo.linkedin %>
+                                                                    </a></p>
+                                                                <% } %>
+                                                                    <% if (profile.contactInfo.github) { %>
+                                                                        <p>💻 <strong>GitHub:</strong> <a
+                                                                                href="<%= profile.contactInfo.github %>"
+                                                                                target="_blank">
+                                                                                <%= profile.contactInfo.github %>
+                                                                            </a></p>
+                                                                        <% } %>
+                                                                            <% if (profile.contactInfo.portfolio) { %>
+                                                                                <p>🌐 <strong>Portfolio:</strong> <a
+                                                                                        href="<%= profile.contactInfo.portfolio %>"
+                                                                                        target="_blank">
+                                                                                        <%= profile.contactInfo.portfolio
+                                                                                            %>
+                                                                                    </a></p>
+                                                                                <% } %>
+                                                </div>
+                                            </section>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

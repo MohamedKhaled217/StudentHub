@@ -1,0 +1,49 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="admin-header">
+    <h1>Pending Registration Requests</h1>
+    <nav class="admin-nav">
+      <a href="/admin/dashboard">Dashboard</a>
+      <a href="/admin/pending" class="active">Pending Requests</a>
+      <a href="/admin/students">All Students</a>
+      <a href="/admin/banned-words">Banned Words</a>
+    </nav>
+  </div>
+
+  <% if (users.length > 0) { %>
+    <div class="pending-requests">
+      <% users.forEach(user => { %>
+        <div class="pending-card">
+          <div class="pending-header">
+            <h3><%= user.name %></h3>
+            <span class="badge badge-pending">Pending</span>
+          </div>
+          <div class="pending-info">
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <p><strong>Student ID:</strong> <%= user.studentId %></p>
+            <p><strong>Registration Date:</strong> <%= new Date(user.createdAt).toLocaleDateString() %></p>
+            <% if (user.studentIdDocument) { %>
+              <p><strong>ID Document:</strong> <a href="<%= user.studentIdDocument %>" target="_blank" class="btn btn-sm">View Document</a></p>
+            <% } %>
+          </div>
+          <div class="pending-actions">
+            <form action="/admin/approve/<%= user._id %>" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-success">✓ Approve</button>
+            </form>
+            <form action="/admin/reject/<%= user._id %>" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to reject this user?')">✗ Reject</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <p>🎉 No pending requests at the moment!</p>
+      <a href="/admin/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

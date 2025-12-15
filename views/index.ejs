@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <div class="container">
+    <h1>Welcome to Student Portal</h1>
+    <p>Create your personal page and connect with fellow students</p>
+    <% if (!user) { %>
+      <div class="hero-buttons">
+        <a href="/auth/signup" class="btn btn-primary">Get Started</a>
+        <a href="/directory" class="btn btn-secondary">Browse Students</a>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2>Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">👤</div>
+        <h3>Personal Profile</h3>
+        <p>Create your own personalized profile page with photo and bio</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Showcase Skills</h3>
+        <p>Display your skills, interests, and projects to the community</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy Control</h3>
+        <p>Control who can view your profile with visibility settings</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>Connect</h3>
+        <p>Share your contact info and social links with others</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (recentStudents && recentStudents.length > 0) { %>
+<section class="recent-students">
+  <div class="container">
+    <h2>Recent Students</h2>
+    <div class="students-grid">
+      <% recentStudents.forEach(student => { %>
+        <div class="student-card">
+          <img src="<%= student.profilePhoto || '/images/default-avatar.png' %>" alt="<%= student.name %>">
+          <h3><%= student.name %></h3>
+          <p><%= student.bio ? student.bio.substring(0, 80) + '...' : 'No bio yet' %></p>
+          <a href="/profile/<%= student.slug %>" class="btn btn-sm">View Profile</a>
+        </div>
+      <% }) %>
+    </div>
+    <div class="text-center" style="margin-top: 2rem;">
+      <a href="/directory" class="btn btn-secondary">View All Students</a>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+<div class="container">
+  <div class="directory-header">
+    <h1>Students Directory</h1>
+    <form action="/directory" method="GET" class="search-form">
+      <input type="text" name="search" placeholder="Search students by name, bio, or interests..." 
+             value="<%= searchQuery %>" class="search-input">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+
+  <% if (students.length > 0) { %>
+    <div class="students-grid">
+      <% students.forEach(student => { %>
+        <div class="student-card">
+          <img src="<%= student.profilePhoto || '/images/default-avatar.png' %>" alt="<%= student.name %>">
+          <h3><%= student.name %></h3>
+          <p class="student-bio"><%= student.bio ? student.bio.substring(0, 100) + (student.bio.length > 100 ? '...' : '') : 'No bio yet' %></p>
+          <% if (student.interests && student.interests.length > 0) { %>
+            <div class="student-interests">
+              <% student.interests.slice(0, 3).forEach(interest => { %>
+                <span class="interest-tag-sm"><%= interest %></span>
+              <% }) %>
+              <% if (student.interests.length > 3) { %>
+                <span class="interest-tag-sm">+<%= student.interests.length - 3 %></span>
+              <% } %>
+            </div>
+          <% } %>
+          <a href="/profile/<%= student.slug %>" class="btn btn-sm btn-block">View Profile</a>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <p>No students found.</p>
+      <% if (searchQuery) { %>
+        <a href="/directory" class="btn btn-secondary">Clear Search</a>
+      <% } %>
+    </div>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

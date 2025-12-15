@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+
+    <div class="container">
+        <div class="admin-header">
+            <h1>Banned Words Management</h1>
+            <nav class="admin-nav">
+                <a href="/admin/dashboard">Dashboard</a>
+                <a href="/admin/pending">Pending Requests</a>
+                <a href="/admin/students">All Students</a>
+                <a href="/admin/banned-words" class="active">Banned Words</a>
+            </nav>
+        </div>
+
+        <div class="form-container">
+            <h2>Add New Banned Word</h2>
+            <form action="/admin/banned-word/add" method="POST" class="inline-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" name="word" placeholder="Enter word to ban" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Word</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="banned-words-section">
+            <h2>Current Banned Words (<%= words.length %>)</h2>
+            <% if (words.length> 0) { %>
+                <div class="banned-words-grid">
+                    <% words.forEach(wordDoc=> { %>
+                        <div class="banned-word-item">
+                            <span class="word-text">
+                                <%= wordDoc.word %>
+                            </span>
+                            <form action="/admin/banned-word/delete/<%= wordDoc._id %>" method="POST"
+                                style="display: inline;">
+                                <button type="submit" class="btn-delete"
+                                    onclick="return confirm('Remove this word from banned list?')">×</button>
+                            </form>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <p class="empty-state-text">No banned words defined.</p>
+                    <% } %>
+        </div>
+
+        <div class="info-box">
+            <h3>ℹ️ About Content Moderation</h3>
+            <p>Banned words are automatically blocked when students try to add them to their profiles. Students will be
+                notified and their attempt will be logged.</p>
+            <p>The system checks for whole words only, so "bad" won't block "badge".</p>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>

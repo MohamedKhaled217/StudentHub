@@ -1,0 +1,110 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <nav class="admin-nav">
+      <a href="/admin/dashboard" class="active">Dashboard</a>
+      <a href="/admin/pending">Pending Requests</a>
+      <a href="/admin/students">All Students</a>
+      <a href="/admin/banned-words">Banned Words</a>
+    </nav>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-info">
+        <h3><%= stats.total %></h3>
+        <p>Total Students</p>
+      </div>
+    </div>
+
+    <div class="stat-card stat-pending">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-info">
+        <h3><%= stats.pending %></h3>
+        <p>Pending Approval</p>
+      </div>
+    </div>
+
+    <div class="stat-card stat-success">
+      <div class="stat-icon">✓</div>
+      <div class="stat-info">
+        <h3><%= stats.approved %></h3>
+        <p>Approved</p>
+      </div>
+    </div>
+
+    <div class="stat-card stat-danger">
+      <div class="stat-icon">✗</div>
+      <div class="stat-info">
+        <h3><%= stats.rejected %></h3>
+        <p>Rejected</p>
+      </div>
+    </div>
+  </div>
+
+  <% if (stats.pending > 0) { %>
+    <div class="alert alert-warning">
+      <strong>Action Required:</strong> You have <%= stats.pending %> pending registration request(s).
+      <a href="/admin/pending" class="btn btn-sm">Review Now</a>
+    </div>
+  <% } %>
+
+  <% if (flaggedUsers.length > 0) { %>
+    <section class="admin-section">
+      <h2>Flagged Content Attempts</h2>
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Attempts</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% flaggedUsers.forEach(user => { %>
+              <tr>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><span class="badge badge-danger"><%= user.flaggedContentAttempts %></span></td>
+                <td><span class="badge badge-<%= user.status %>"><%= user.status %></span></td>
+                <td>
+                  <a href="/profile/<%= user.slug %>" class="btn btn-sm" target="_blank">View Profile</a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  <% } %>
+
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="actions-grid">
+      <a href="/admin/pending" class="action-card">
+        <span class="action-icon">📋</span>
+        <span>Review Pending</span>
+      </a>
+      <a href="/admin/students" class="action-card">
+        <span class="action-icon">👥</span>
+        <span>Manage Students</span>
+      </a>
+      <a href="/admin/banned-words" class="action-card">
+        <span class="action-icon">🚫</span>
+        <span>Banned Words</span>
+      </a>
+      <a href="/directory" class="action-card">
+        <span class="action-icon">🌐</span>
+        <span>View Directory</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
