@@ -6,6 +6,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+  },
   email: {
     type: String,
     required: true,
@@ -66,16 +72,11 @@ const userSchema = new mongoose.Schema({
     name: String,
     description: String,
     githubLink: String,
-    liveLink: String
   }],
   visibility: {
     type: String,
     enum: ['public', 'university', 'private'],
     default: 'public'
-  },
-  flaggedContentAttempts: {
-    type: Number,
-    default: 0
   },
   createdAt: {
     type: Date,
@@ -84,14 +85,5 @@ const userSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-
-// Create unique slug for profile URL
-userSchema.virtual('slug').get(function() {
-  return this.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-});
-
-// Ensure virtuals are included in JSON
-userSchema.set('toJSON', { virtuals: true });
-userSchema.set('toObject', { virtuals: true });
 
 module.exports = mongoose.model('User', userSchema);

@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const path = require('path');
@@ -32,10 +31,10 @@ app.use(session({
   }
 }));
 
-// Make user available in all views
+// Make user available in all views ,routes
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
-  res.locals.success_msg = req.session.success_msg || null;
+  res.locals.success_msg = req.session.success_msg || null; // flash message
   res.locals.error_msg = req.session.error_msg || null;
   delete req.session.success_msg;
   delete req.session.error_msg;

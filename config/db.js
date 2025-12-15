@@ -27,6 +27,7 @@ const initializeData = async () => {
         const hashedPassword = await bcrypt.hash('Admin123!', 10);
         await User.create({
             name: 'System Administrator',
+            username: "admin1",
             email: 'admin@eng.psu.edu',
             password: hashedPassword,
             role: 'admin',

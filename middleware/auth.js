@@ -1,6 +1,6 @@
 // Middleware to check if user is authenticated
 exports.isAuthenticated = (req, res, next) => {
-  if (req.session.user) {
+  if (req.session.user) {  // if cookie has sessionid
     return next();
   }
   req.session.error_msg = 'Please log in to access this page';
@@ -12,7 +12,7 @@ exports.isAdmin = (req, res, next) => {
   if (req.session.user && req.session.user.role === 'admin') {
     return next();
   }
-  req.session.error_msg = 'Access denied. Admin only.';
+  req.session.error_msg = 'Access denied, Admin only';
   res.redirect('/');
 };
 
