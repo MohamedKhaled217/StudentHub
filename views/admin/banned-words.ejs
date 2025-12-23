@@ -11,20 +11,38 @@
             </nav>
         </div>
 
-        <div class="form-container">
-            <h2>Add New Banned Word</h2>
-            <form action="/admin/banned-word/add" method="POST" class="inline-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="text" name="word" placeholder="Enter word to ban" required>
+        <div class="admin-form-card">
+            <div class="admin-form-header">
+                <svg class="admin-form-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+                <h2>Add New Banned Word</h2>
+            </div>
+            <form action="/admin/banned-word/add" method="POST" class="admin-add-form">
+                <div class="admin-form-input-group">
+                    <div class="admin-form-input-wrapper">
+                        <input type="text" name="word" id="bannedWordInput" placeholder="Enter word to ban" required class="admin-form-input">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Word</button>
+                    <button type="submit" class="btn btn-primary admin-form-submit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Add Word
+                    </button>
                 </div>
             </form>
         </div>
 
         <div class="banned-words-section">
-            <h2>Current Banned Words (<%= words.length %>)</h2>
+            <div class="section-header">
+                <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <h2>Current Banned Words <span class="badge-count">(<%= words.length %>)</span></h2>
+            </div>
             <% if (words.length> 0) { %>
                 <div class="banned-words-grid">
                     <% words.forEach(wordDoc=> { %>
@@ -32,16 +50,25 @@
                             <span class="word-text">
                                 <%= wordDoc.word %>
                             </span>
-                            <form action="/admin/banned-word/delete/<%= wordDoc._id %>" method="POST"
-                                style="display: inline;">
+                            <form action="/admin/banned-word/delete/<%= wordDoc._id %>" method="POST" class="delete-form">
                                 <button type="submit" class="btn-delete"
-                                    onclick="return confirm('Remove this word from banned list?')">×</button>
+                                    onclick="return confirm('Remove this word from banned list?')" title="Delete word">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
                             </form>
                         </div>
                         <% }) %>
                 </div>
                 <% } else { %>
-                    <p class="empty-state-text">No banned words defined.</p>
+                    <div class="empty-state">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        <p class="empty-state-text">No banned words defined.</p>
+                    </div>
                     <% } %>
         </div>
 

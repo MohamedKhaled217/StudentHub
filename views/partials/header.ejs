@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %> | Student Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -21,8 +24,8 @@
           <% } %>
           <li><a href="/auth/logout" class="btn-logout">Logout</a></li>
         <% } else { %>
-          <li><a href="/auth/login" class="btn-primary">Login</a></li>
-          <li><a href="/auth/signup" class="btn-secondary">Sign Up</a></li>
+          <li><a href="/auth/login" >Login</a></li>
+          <li><a href="/auth/signup"  >Sign Up</a></li>
         <% } %>
       </ul>
       <button class="mobile-toggle" id="mobileToggle">☰</button>
