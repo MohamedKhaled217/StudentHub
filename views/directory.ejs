@@ -3,6 +3,7 @@
   <div class="container">
     <div class="directory-header">
       <h1>Students Directory</h1>
+      <p class="directory-meta"><%= students.length %> student<%= students.length === 1 ? '' : 's' %> found</p>
       <form action="/directory" method="GET" class="search-form">
         <input type="text" name="search" placeholder="Search students by name, bio, or interests..."
           value="<%= searchQuery %>" class="search-input">

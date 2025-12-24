@@ -40,7 +40,7 @@ const GetPending = async (req, res) => {
     }
 }
 
-const GetAprroved = async (req, res) => {
+const GetAprroved = async (req, res) => { // approve student
     try {
         await User.findByIdAndUpdate(req.params.id, { status: 'approved' });
         req.session.success_msg = 'User approved successfully';
@@ -52,7 +52,7 @@ const GetAprroved = async (req, res) => {
     }
 }
 
-const GetRejected = async (req, res) => {
+const GetRejected = async (req, res) => { // reject student
     try {
         await User.findByIdAndUpdate(req.params.id, { status: 'rejected' });
         req.session.success_msg = 'User rejected';
