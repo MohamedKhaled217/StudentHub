@@ -1,110 +1,138 @@
-## Student Hub
+# 🎓 Student Hub
 
-Student Hub is a Node.js/Express web application that provides a simple student directory and profile management system. Students can sign up, create and edit a profile (with avatar and document uploads), and browse a public directory, while admins can manage users and maintain a list of banned words for content moderation.
+![Language](https://img.shields.io/badge/Language-JavaScript-yellow.svg)
+![Framework](https://img.shields.io/badge/Framework-Express.js-lightgrey.svg)
+![Database](https://img.shields.io/badge/Database-MongoDB-green.svg)
+![Status](https://img.shields.io/badge/Status-Completed-success.svg)
+![License](https://img.shields.io/badge/License-ISC-blue.svg)
 
-### Features
+<br />
 
-- **Authentication**
-  - Student sign up and login.
-  - Session-based authentication using `express-session` and `connect-mongo`.
-- **Student Profiles**
-  - View and edit personal profile.
-  - Upload profile pictures and student ID documents.
-- **Student Directory**
-  - Public directory of students (depending on your controller/view logic).
-- **Admin Panel**
-  - Admin dashboard to view students and pending accounts.
-  - Manage banned words for safer content.
-- **Content Moderation**
-  - Middleware to check user-generated content against banned words.
+> **A Comprehensive Student Management & Directory System**
+>
+> Streamlining profile maintenance, directory discovery, and automated content moderation in a secure Node.js environment.
 
-### Tech Stack
+---
 
-- **Backend**: Node.js, Express
-- **View Engine**: EJS templates (`views` folder)
-- **Database**: MongoDB with Mongoose (`models/User.js`, `models/BannedWord.js`)
-- **Sessions**: `express-session` with `connect-mongo`
-- **File Uploads**: Multer (`config/multer.js`)
-- **Styling & Assets**: CSS, JS, and images in `public`
+## 📖 About The Project
 
-### Project Structure
+**Student Hub** is a robust web application designed to manage academic communities efficiently. It bridges the gap between students looking to showcase their profiles and administrators needing to maintain a safe, moderated environment. 
 
-- `app.js` – Main Express application entry point and route mounting.
-- `config/` – Database (`db.js`) and Multer (`multer.js`) configuration.
-- `controllers/` – Route handlers for auth, profiles, admin, and public pages.
-- `middleware/` – Authentication and content moderation middleware.
-- `models/` – Mongoose models for users and banned words.
-- `routes/` – Express routers for auth, profile, admin, and public routes.
-- `views/` – EJS views (pages and partials).
-- `public/` – Static assets (CSS, JS, images, uploads).
+By leveraging **session-based authentication** and **MongoDB Atlas**, the platform ensures that user data is handled securely while providing a seamless user experience through dynamic **EJS templates**.
+
+### ✨ Key Features
+* **Secure Authentication:** Robust sign-up and login system using `express-session` and `connect-mongo` for persistent sessions.
+* **Dynamic Student Profiles:** Students can manage their own profiles, including bio updates and secure file uploads for profile pictures and ID documents.
+* **Public Student Directory:** A searchable, browsable directory to discover and connect with other students.
+* **Advanced Admin Panel:** Specialized dashboard for administrators to monitor accounts, review registrations, and manage community standards.
+* **Automated Content Moderation:** Custom middleware that automatically checks user-generated content against a dynamic banned words database.
+
+---
+
+## 🛠 Tech Stack
+
+The project leverages a modern JavaScript stack for performance and scalability:
+
+* **Backend:** Node.js & Express.js
+* **Database:** MongoDB (Object modeling via Mongoose)
+* **View Engine:** EJS (Embedded JavaScript templates)
+* **File Handling:** Multer (for handling multipart/form-data)
+* **Session Management:** Express-session with MongoDB storage
+* **Frontend:** CSS3, Vanilla JavaScript, and EJS partials
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- **Node.js** (v18+ recommended)
-- **npm** (comes with Node)
-- **MongoDB** running locally or in the cloud (e.g. MongoDB Atlas)
+* **Node.js:** v18.0.0 or higher
+* **MongoDB:** Local instance or MongoDB Atlas URI
+* **npm:** Installed automatically with Node.js
 
 ### Installation
 
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/MohamedKhaled217/StudentHub.git
+1. **Clone the repository:**
+```bash
+   git clone [https://github.com/MohamedKhaled217/StudentHub.git](https://github.com/MohamedKhaled217/StudentHub.git)
    cd StudentHub
-   ```
 
-2. **Install dependencies**
+```
 
-   ```bash
-   npm install
-   ```
+2. **Install dependencies:**
+```bash
+npm install
 
-3. **Create an environment file**
-
-   In the project root, create a `.env` file:
-
-   ```bash
-   touch .env
-   ```
-
-   Add at least:
-
-   ```env
-   MONGODB_URI=mongodb://localhost:27017/studenthub
-   SESSION_SECRET=your-strong-secret
-   PORT=3000
-   ```
-
-   Adjust `MONGODB_URI` for your environment (local or cloud MongoDB).
-
-### Running the App
-
-- **Development (with nodemon)**:
-
-  ```bash
-  npm start
-  ```
-
-  This runs `nodemon app.js` (see `package.json`), watching for file changes.
-
-- Once the server is running, open:
-
-  ```text
-  http://localhost:3000
-  ```
-
-### Scripts
-
-- **`npm start`** – Starts the development server with nodemon.
-
-### Environment & Configuration
-
-- Sessions are stored in MongoDB via `connect-mongo` using `MONGODB_URI`.
-- The session secret is read from `SESSION_SECRET` in `.env`.
-- Static files (CSS, JS, images, uploads) are served from `public/`.
-
-### License
-
-This project is licensed under the ISC License. See `LICENSE` for details.
+```
 
 
+3. **Environment Configuration:** Create a `.env` file in the root directory:
+```env
+MONGODB_URI=your_mongodb_uri
+SESSION_SECRET=your_strong_secret_key
+PORT=3000
+
+```
+
+
+
+### Running the Application
+
+To start the server with **nodemon** (auto-restarts on changes):
+
+```bash
+npm start
+
+```
+
+Once started, navigate to `http://localhost:3000` in your browser.
+
+---
+
+## 🌐 Deployment & Troubleshooting
+
+### Deployment
+
+* **Railway (Recommended):** Connect your GitHub repo, add your `.env` variables in the **Variables** tab, and Railway will automatically deploy via your `npm start` script.
+* **Render:** Create a "New Web Service," connect your repo, and set the **Start Command** to `node app.js`.
+
+### Troubleshooting
+
+| Issue | Likely Cause | Fix |
+| --- | --- | --- |
+| **"Port in use"** | Hardcoded Port | Ensure `app.js` uses `process.env.PORT |
+| **Missing Images** | Ephemeral Storage | Cloud hosts wipe local files on restart. Use **Cloudinary** for permanent image storage. |
+| **DB Connection** | IP Whitelisting | In MongoDB Atlas, ensure you have whitelisted `0.0.0.0/0` in Network Access. |
+
+---
+
+## 📂 Project Structure
+
+```text
+├── 📁 config/             # Database connection and Multer setup
+├── 📁 controllers/        # Logic for auth, profile, and admin routes
+├── 📁 middleware/         # Auth guards and content moderation filters
+├── 📁 models/             # Mongoose schemas (User, BannedWord)
+├── 📁 public/             # Static assets (CSS, JS, Images, Uploads)
+├── 📁 routes/             # Express route definitions
+├── 📁 views/              # EJS templates and UI components
+└── 📄 app.js              # Application entry point
+
+```
+
+---
+
+## 👥 Team Members
+
+**Computer and Control Dept | Port Said University**
+
+* 👨‍💻 **Mohamed Khaled**
+* 👨‍💻 **Mohamed Mousad**
+* 👨‍💻 **Mohamed Eltabey**
+* 👨‍💻 **Zyad Khaled**
+* 👨‍💻 **Ahmed Bassem**
+
+---
+
+## 📜 License
+
+Distributed under the **ISC License**. See `LICENSE` for more information.
