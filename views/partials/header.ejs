@@ -13,22 +13,28 @@
   <nav class="navbar">
     <div class="container nav-container">
       <a href="/" class="logo">🎓 Student Hub</a>
-      <ul class="nav-menu">
-        <li><a href="/">Home</a></li>
-        <li><a href="/directory">Directory</a></li>
-        <% if (user) { %>
-          <% if (user.role === 'admin') { %>
-            <li><a href="/admin/dashboard">Admin</a></li>
+      <div class="nav-actions">
+        <ul class="nav-menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/directory">Directory</a></li>
+          <% if (user) { %>
+            <% if (user.role === 'admin') { %>
+              <li><a href="/admin/dashboard">Admin</a></li>
+            <% } else { %>
+              <li><a href="/profile/me">My Profile</a></li>
+            <% } %>
+            <li><a href="/auth/logout" class="btn-logout">Logout</a></li>
           <% } else { %>
-            <li><a href="/profile/me">My Profile</a></li>
+            <li><a href="/auth/login" >Login</a></li>
+            <li><a href="/auth/signup"  >Sign Up</a></li>
           <% } %>
-          <li><a href="/auth/logout" class="btn-logout">Logout</a></li>
-        <% } else { %>
-          <li><a href="/auth/login" >Login</a></li>
-          <li><a href="/auth/signup"  >Sign Up</a></li>
-        <% } %>
-      </ul>
-      <button class="mobile-toggle" id="mobileToggle">☰</button>
+        </ul>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+          <span class="theme-icon" aria-hidden="true">🌙</span>
+          <span class="theme-label">Dark</span>
+        </button>
+        <button class="mobile-toggle" id="mobileToggle">☰</button>
+      </div>
     </div>
   </nav>
 
